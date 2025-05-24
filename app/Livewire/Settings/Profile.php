@@ -14,12 +14,12 @@ use Livewire\WithFileUploads;
 class Profile extends Component
 {
     use WithFileUploads;
-    public string $name = '';
-    public string $email = '';
-    public string $dietaryPreference = '';
-    public string $phoneNumber = '';
-    public $originalProfilePicture = null;
-    public $uploadedProfilePicture = null;
+    public string $name;
+    public string $email;
+    public ?string $dietaryPreference;
+    public ?string $phoneNumber;
+    public $originalProfilePicture;
+    public $uploadedProfilePicture;
 
     /**
      * Mount the component.
@@ -53,10 +53,10 @@ class Profile extends Component
                 Rule::unique(User::class)->ignore($user->id),
             ],
 
-            'dietaryPreference' => ['required', 'string'],
+            'dietaryPreference' => [Auth::user()->role === 'user' ? 'required' : 'nullable', 'string'],
 
             'phoneNumber' => [
-                'required',
+                Auth::user()->role === 'user' ? 'required' : 'nullable',
                 'string',
                 'regex:/^01[0-9]{1}-[0-9]{7,8}$/',
                 'min:11',
@@ -67,7 +67,6 @@ class Profile extends Component
         if ($this->uploadedProfilePicture instanceof TemporaryUploadedFile) {
             $validationRules['uploadedProfilePicture'] = [
                 'image',
-                'mimes:jpeg,png,jpg,gif,svg',
                 'max:2048',
             ];
         }
@@ -83,8 +82,7 @@ class Profile extends Component
             if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
                 Storage::disk('public')->delete($user->profile_picture);
             }
-
-            $path = $this->uploadedProfilePicture->store('profile_pictures', 'public');
+            $path = $this->uploadedProfilePicture->store('profile_picture', 'public');
             $user->profile_picture = $path;
         }
 
@@ -93,8 +91,7 @@ class Profile extends Component
         }
 
         $user->save();
-        $this->redirect(route('settings.profile', absolute: false));
-        // $this->dispatch('profile-updated', name: $user->name);
+        $this->dispatch('profile-updated', name: $user->name);
     }
 
     /**

@@ -17,12 +17,13 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
             'password' => Hash::make('asdfasdf'),
-            'dietary_preference' => 'Vegetarian',
-            'phone_number' => '012-3456789',
-            'profile_picture' => '',
+            'dietary_preference' => null,
+            'phone_number' => null,
+            'profile_picture' => 'profile_picture/default-profile.png',
+            'role' => 'admin',
         ]);
     }
 }

@@ -10,25 +10,23 @@
             <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
                 <x-app-logo />
             </a>
-
+            
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Platform')" class="grid">
-                    {{-- <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item> --}}
-                    <flux:navlist.item icon="utensils" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Food Box Customization') }}</flux:navlist.item>
-                </flux:navlist.group>
+                @if(auth()->user()->role === 'admin')
+                    <flux:navlist.group heading="{{ __('Menu') }}" expandable>
+                        <flux:navlist.item icon="utensils" :href="route('menu.view')" :current="request()->routeIs('menu.view')" wire:navigate>{{ __('View Menu') }}</flux:navlist.item>
+                        <flux:navlist.item icon="utensils" :href="route('menu.create')" :current="request()->routeIs('menu.create')" wire:navigate>{{ __('Create Menu') }}</flux:navlist.item>
+                    </flux:navlist.group>
+                @endif
+                @if(auth()->user()->role === 'user')
+                    <flux:navlist.group heading="{{ __('Food Box') }}" expandable>
+                        <flux:navlist.item icon="utensils" :href="route('food-box.view')" :current="request()->routeIs('food-box.view')" wire:navigate>{{ __('View') }}</flux:navlist.item>
+                        <flux:navlist.item icon="utensils" :href="route('food-box.create')" :current="request()->routeIs('food-box.create')" wire:navigate>{{ __('Create') }}</flux:navlist.item>
+                    </flux:navlist.group>
+                @endif
             </flux:navlist>
 
             <flux:spacer />
-
-            {{-- <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
-
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                {{ __('Documentation') }}
-                </flux:navlist.item>
-            </flux:navlist> --}}
 
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">    

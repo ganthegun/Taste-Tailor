@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'dietary_preference',
         'phone_number',
         'profile_picture',
+        'role',
     ];
 
     /**
@@ -60,5 +61,10 @@ class User extends Authenticatable implements MustVerifyEmail
             ->explode(' ')
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+    public function foodBoxes()
+    {
+        return $this->hasMany(FoodBox::class);
     }
 }

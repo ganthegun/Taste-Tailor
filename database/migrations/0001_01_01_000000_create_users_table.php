@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->string('dietary_preference');
-            $table->string('phone_number');
+            $table->string('dietary_preference')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('profile_picture')->nullable();
+            $table->string('role')->default('user');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

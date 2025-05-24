@@ -9,20 +9,28 @@
 
                 <div class="flex items-center gap-6">
                     <div class="flex-shrink-0 pt-2">
-                        <flux:avatar size="xl" 
-                        class="flex items-center justify-center overflow-hidden text-center"
-                        src="{{ $originalProfilePicture ? Storage::url($originalProfilePicture) : Storage::url('profile_pictures/default-profile.png') }}" 
-                        alt="{{ auth()->user()->name ?? 'Profile picture' }}" />
+                        <div class="flex-shrink-0 pt-2">
+                            <img 
+                                class="w-48 h-48 rounded object-cover" 
+                                @if ($uploadedProfilePicture)
+                                    src="{{ $uploadedProfilePicture->temporaryUrl() }}"
+                                @else
+                                    src="{{ $originalProfilePicture ? Storage::url($originalProfilePicture) : Storage::url('profile_picture/default-profile.png') }}" 
+                                @endif
+                                alt="{{ auth()->user()->name ?? 'Profile picture' }}" 
+                            />
+                        </div>
                     </div>
 
-                    <flux:input wire:model="uploadedProfilePicture" :label="__('Choose New Picture')" accept="image/*" class="max-w-xs" type="file" />
+                    <flux:input wire:model="uploadedProfilePicture" :label="__('Choose New Picture')" accept="image/*"
+                        class="max-w-xs" type="file" />
                 </div>
             </div>
 
-            <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
+            <flux:input wire:model="name" :label="__('Name')" type="text" required />
 
             <div>
-                <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
+                <flux:input wire:model="email" :label="__('Email')" type="email" required />
 
                 @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
                     <div>
@@ -44,31 +52,32 @@
                 @endif
             </div>
 
-            <flux:input wire:model="phoneNumber" :label="__('Phone Number')" type="tel" autocomplete="tel"
-                required />
+            @if (auth()->user()->role === 'user')
+                <flux:input wire:model="phoneNumber" :label="__('Phone Number')" type="tel" required />
 
-            <flux:label for="dietaryPreference" class="mb-1 block">{{ __('Dietary Preference') }}</flux:label>
-            <div class="mt-1 pb-1">
-                <flux:dropdown id="dietaryPreference">
-                    <flux:button icon:trailing="chevron-down">{{ $dietaryPreference }}</flux:button>
-                    <flux:menu>
-                        <flux:menu.radio.group wire:model.live="dietaryPreference">
-                            <flux:menu.radio value="Omnivore">Omnivore</flux:menu.radio>
-                            <flux:menu.radio value="Flexitarian">Flexitarian</flux:menu.radio>
-                            <flux:menu.radio value="Pescatarian">Pescatarian</flux:menu.radio>
-                            <flux:menu.radio value="Pollotarian">Pollotarian</flux:menu.radio>
-                            <flux:menu.radio value="Vegetarian">Vegetarian</flux:menu.radio>
-                            <flux:menu.radio value="Vegan">Vegan</flux:menu.radio>
-                            <flux:menu.radio value="Raw Vegan">Raw Vegan</flux:menu.radio>
-                            <flux:menu.radio value="Macrobiotic">Macrobiotic</flux:menu.radio>
-                            <flux:menu.radio value="Paleolithic">Paleolithic</flux:menu.radio>
-                            <flux:menu.radio value="Ketogenic">Ketogenic</flux:menu.radio>
-                            <flux:menu.radio value="Carnivore">Carnivore</flux:menu.radio>
-                            <flux:menu.radio value="Mediterranean">Mediterranean</flux:menu.radio>
-                        </flux:menu.radio.group>
-                    </flux:menu>
-                </flux:dropdown>
-            </div>
+                <flux:label for="dietaryPreference" class="mb-1 block">{{ __('Dietary Preference') }}</flux:label>
+                <div class="mt-1 pb-1">
+                    <flux:dropdown id="dietaryPreference">
+                        <flux:button icon:trailing="chevron-down">{{ $dietaryPreference }}</flux:button>
+                        <flux:menu>
+                            <flux:menu.radio.group wire:model.live="dietaryPreference">
+                                <flux:menu.radio value="Omnivore">Omnivore</flux:menu.radio>
+                                <flux:menu.radio value="Flexitarian">Flexitarian</flux:menu.radio>
+                                <flux:menu.radio value="Pescatarian">Pescatarian</flux:menu.radio>
+                                <flux:menu.radio value="Pollotarian">Pollotarian</flux:menu.radio>
+                                <flux:menu.radio value="Vegetarian">Vegetarian</flux:menu.radio>
+                                <flux:menu.radio value="Vegan">Vegan</flux:menu.radio>
+                                <flux:menu.radio value="Raw Vegan">Raw Vegan</flux:menu.radio>
+                                <flux:menu.radio value="Macrobiotic">Macrobiotic</flux:menu.radio>
+                                <flux:menu.radio value="Paleolithic">Paleolithic</flux:menu.radio>
+                                <flux:menu.radio value="Ketogenic">Ketogenic</flux:menu.radio>
+                                <flux:menu.radio value="Carnivore">Carnivore</flux:menu.radio>
+                                <flux:menu.radio value="Mediterranean">Mediterranean</flux:menu.radio>
+                            </flux:menu.radio.group>
+                        </flux:menu>
+                    </flux:dropdown>
+                </div>
+            @endif
 
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">
@@ -80,7 +89,8 @@
                 </x-action-message>
             </div>
         </form>
-
-        <livewire:settings.delete-user-form />
+        @if (auth()->user()->role === 'user')
+            <livewire:settings.delete-user-form />
+        @endif
     </x-settings.layout>
 </section>

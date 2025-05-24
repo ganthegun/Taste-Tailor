@@ -9,12 +9,23 @@ class FoodBox extends Model
     protected $fillable = [
         'name',
         'description',
-        'price',
         'dietary_preference',
-        'image_url',
-        // 'created_at',
-        // 'updated_at',
+        'total_price',
         'user_id',
-        'food_items',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function boxMenus()
+    {
+        return $this->hasMany(BoxMenu::class);
+    }
+
+    public function menus()
+    {
+        return $this->belongsToMany(Menu::class, 'box_menus');
+    }
 }
