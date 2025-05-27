@@ -21,12 +21,12 @@
                         <flux:button icon:trailing="chevron-down">{{ $nutrient ? $nutrient : __('Nutrient Category') }}</flux:button>
                         <flux:menu>
                             <flux:menu.radio.group wire:model.live="nutrient">
-                                <flux:menu.radio value="Carbohydrates">Carbohydrates</flux:menu.radio>
-                                <flux:menu.radio value="Proteins">Proteins</flux:menu.radio>
-                                <flux:menu.radio value="Fats">Fats</flux:menu.radio>
-                                <flux:menu.radio value="Vitamins">Vitamins</flux:menu.radio>
-                                <flux:menu.radio value="Minerals">Minerals</flux:menu.radio>
-                                <flux:menu.radio value="Dietary Fiber">Dietary Fiber</flux:menu.radio>
+                                <flux:menu.radio value="Carbohydrate">Carbohydrates</flux:menu.radio>
+                                <flux:menu.radio value="Protein">Proteins</flux:menu.radio>
+                                <flux:menu.radio value="Fat">Fats</flux:menu.radio>
+                                <flux:menu.radio value="Vitamin">Vitamins</flux:menu.radio>
+                                <flux:menu.radio value="Mineral">Minerals</flux:menu.radio>
+                                <flux:menu.radio value="Dietary Fibre">Dietary Fiber</flux:menu.radio>
                             </flux:menu.radio.group>
                         </flux:menu>
                     </flux:dropdown>

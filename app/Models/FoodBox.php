@@ -28,4 +28,15 @@ class FoodBox extends Model
     {
         return $this->belongsToMany(Menu::class, 'box_menus');
     }
+
+    public function orderFoodBoxes()
+    {
+        return $this->hasMany(OrderFoodBox::class);
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_food_boxes')
+            ->withPivot('quantity');
+    }
 }

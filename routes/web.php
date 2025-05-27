@@ -5,6 +5,8 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Menu;
 use App\Livewire\FoodBox;
+use App\Livewire\Order;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,6 +31,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('food-box/create', FoodBox\Create::class)->name('food-box.create');
     Route::get('food-box/view', FoodBox\View::class)->name('food-box.view');
     Route::get('food-box/edit/{id}', FoodBox\Edit::class)->name('food-box.edit');
+
+    Route::get('order/create', Order\Create::class)->name('order.create');
+    Route::get('order/view', Order\View::class)->name('order.view');
+    Route::get('order/edit/{id}', Order\Edit::class)->name('order.edit');
+
+    Route::get('payment/index', [PaymentController::class, 'index'])->name('payment.index');
+    Route::post('payment/pay', [PaymentController::class, 'pay'])->name('payment.pay');
+    Route::post('payment/delete', [PaymentController::class, 'delete'])->name('payment.delete');
+    Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
 });
 
 require __DIR__.'/auth.php';

@@ -74,6 +74,13 @@
             <x-action-message class="me-3 flex justify-end" on="food-box-created">
                 {{ __('Created.') }}
             </x-action-message>
+            <div class="flex justify-end">
+                @if (session('error'))
+                    <div class="text-red-500 text-sm">
+                        {{ session('error') }}  
+                    </div>
+                @endif
+            </div>
         </form>
     </div>
 </div>

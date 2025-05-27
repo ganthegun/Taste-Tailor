@@ -14,7 +14,7 @@ class Create extends Component
 
     public string $name;
     public string $description;
-    public string $dietary_preference;
+    public $dietary_preference;
     public float $total_price = 0.00;
     public int $user_id;
     public $menus = [];
@@ -53,6 +53,17 @@ class Create extends Component
     public function create()
     {
         $this->user_id = Auth::user()->id;
+
+        if (empty($this->selectedMenus)) {
+            session()->flash('error', 'Please select at least one menu.');
+            return;
+        }
+
+        if (!$this->dietary_preference) {
+            session()->flash('error', 'Please select a dietary preference.');
+            return;
+        }
+
         $validated = $this->validate([
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],

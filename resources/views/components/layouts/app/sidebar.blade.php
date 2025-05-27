@@ -20,8 +20,12 @@
                 @endif
                 @if(auth()->user()->role === 'user')
                     <flux:navlist.group heading="{{ __('Food Box') }}" expandable>
-                        <flux:navlist.item icon="utensils" :href="route('food-box.view')" :current="request()->routeIs('food-box.view')" wire:navigate>{{ __('View') }}</flux:navlist.item>
-                        <flux:navlist.item icon="utensils" :href="route('food-box.create')" :current="request()->routeIs('food-box.create')" wire:navigate>{{ __('Create') }}</flux:navlist.item>
+                        <flux:navlist.item icon="utensils" :href="route('food-box.view')" :current="request()->routeIs('food-box.view')" wire:navigate>{{ __('Existing Boxes') }}</flux:navlist.item>
+                        <flux:navlist.item icon="utensils" :href="route('food-box.create')" :current="request()->routeIs('food-box.create')" wire:navigate>{{ __('Create Your\'s Now') }}</flux:navlist.item>
+                    </flux:navlist.group>
+                    <flux:navlist.group heading="{{ __('Order') }} & {{ __('Subscription') }}" expandable>
+                        <flux:navlist.item icon="utensils" :href="route('order.create')" :current="request()->routeIs('order.create')" wire:navigate>{{ __('Order Now') }}</flux:navlist.item>
+                        <flux:navlist.item icon="utensils" :href="route('order.view')" :current="request()->routeIs('order.view')" wire:navigate>{{ __('View Subscription') }}</flux:navlist.item>
                     </flux:navlist.group>
                 @endif
             </flux:navlist>
