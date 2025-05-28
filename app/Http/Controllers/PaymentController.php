@@ -78,7 +78,7 @@ class PaymentController extends Controller
         }
 
         // Create a new product
-        $number = Order::where('user_id', $request->user()->id)->count();
+        $number = Order::where('user_id', $request->user()->id)->count() + 1;
         $stripeProduct = StripeProduct::create([
             'name' => $request->user()->name . '\'s Food Box ' . $number,
         ]);
